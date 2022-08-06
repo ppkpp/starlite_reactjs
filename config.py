@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     DB_MAX_OVERFLOW: int = 0
     DB_ECHO: bool = False
 
+    ALGORITHM = "HS256"
+    JWT_SECRET = "pk!@#$#@!"
     @property
     def DB_DSN(self) -> URL:
         return URL.create(

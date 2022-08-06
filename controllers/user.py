@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import update
 from sqlalchemy import delete as sql_del
+from security.auth_dependency import authenticated_guard
 class UserController(Controller):
     path = "/users"
 
@@ -36,6 +37,12 @@ class UserController(Controller):
         result = await db.execute(query)
         await db.commit()
         return {"status":"Success"}
+
+    @get( path="/auth_route",guards=[authenticated_guard])
+    async def list_auth_users(self,db:AsyncSession) -> List[UserSchema]:
+        q = select(User)
+        result = await db.execute(q)
+        return result.scalars().all()
          
         
 
